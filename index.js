@@ -13,16 +13,20 @@ server.listen(PORT, '0.0.0.0', () => {
 });
 
 function createBot() {
+  console.log('Attempting to connect CR7...');
+  
   const bot = mineflayer.createBot({
     host: 'scarletibis.aternos.host',
     port: 36669,
     username: 'CR7',
     version: '1.20.1',
-    checkTimeoutInterval: 60 * 1000 // إعطاء مهلة أطول للـ Fabric للاتصال
+    checkTimeoutInterval: 60000,
+    // خيارات إضافية لتخطي مشاكل شبك المودات
+    brand: 'vanilla'
   });
 
   bot.on('spawn', () => {
-    console.log('CR7 joined the server successfully!');
+    console.log('SUCCESS: CR7 joined the server successfully!');
     setInterval(() => {
       bot.setControlState('jump', true);
       setTimeout(() => bot.setControlState('jump', false), 500);
@@ -30,17 +34,17 @@ function createBot() {
   });
 
   bot.on('kicked', (reason) => {
-    console.log('Kicked reason:', reason);
+    console.log('Kicked from server:', JSON.stringify(reason));
   });
 
   bot.on('end', (reason) => {
-    console.log('Disconnected. Reason:', reason);
+    console.log('Connection ended. Reason:', reason);
     console.log('Reconnecting in 5 seconds...');
     setTimeout(createBot, 5000);
   });
 
   bot.on('error', (err) => {
-    console.log('Bot Error:', err);
+    console.log('Bot Error details:', err);
   });
 }
 
