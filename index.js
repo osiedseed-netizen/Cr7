@@ -1,7 +1,6 @@
 const http = require('http');
 const mineflayer = require('mineflayer');
 
-// 1. سيرفر الـ HTTP مع ربط 0.0.0.0 ليتمكن Render من اكتشافه
 const PORT = process.env.PORT || 10000;
 
 const server = http.createServer((req, res) => {
@@ -13,18 +12,16 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log('Web server is running on port ' + PORT);
 });
 
-// 2. إعدادات بوت ماينكرافت
 function createBot() {
   const bot = mineflayer.createBot({
     host: 'osieds.aternos.me',
-    port: 36669, // تأكد إن هاد هو البورت الحالي من أترنوس
+    port: 36669,
     username: 'CR7',
     version: '1.20.1'
   });
 
   bot.on('spawn', () => {
     console.log('CR7 joined the server successfully!');
-    // قفز دوري لمنع الـ AFK kick
     setInterval(() => {
       bot.setControlState('jump', true);
       setTimeout(() => bot.setControlState('jump', false), 500);
