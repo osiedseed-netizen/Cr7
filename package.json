@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
-    "mineflayer": "^4.20.1"
+    "mineflayer": "^4.20.1",
+    "node-mcstatus": "^1.0.2"
   }
 }
