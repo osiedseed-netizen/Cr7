@@ -14,7 +14,7 @@ server.listen(PORT, '0.0.0.0', () => {
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'osieds-lfk5.aternos.me', // <-- تم تحديث العنوان هنا
+    host: 'scarletibis.aternos.host', // جرب استخدام عنوان Dyn هاد بدلاً من osieds-lfk5
     port: 36669,
     username: 'CR7',
     version: '1.20.1'
@@ -28,13 +28,19 @@ function createBot() {
     }, 30000);
   });
 
-  bot.on('end', () => {
-    console.log('Disconnected. Reconnecting in 5 seconds...');
+  // طباعة سبب الطرد أو الفصل للتشخيص
+  bot.on('kicked', (reason) => {
+    console.log('Kicked for reason:', reason);
+  });
+
+  bot.on('end', (reason) => {
+    console.log('Disconnected. Reason:', reason);
+    console.log('Reconnecting in 5 seconds...');
     setTimeout(createBot, 5000);
   });
 
   bot.on('error', (err) => {
-    console.log('Bot Error:', err);
+    console.log('Bot Error Details:', err);
   });
 }
 
