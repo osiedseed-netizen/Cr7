@@ -14,7 +14,7 @@ server.listen(PORT, '0.0.0.0', () => {
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'osieds.aternos.me',
+    host: 'osieds-lfk5.aternos.me', // <-- تم تحديث العنوان هنا
     port: 36669,
     username: 'CR7',
     version: '1.20.1'
