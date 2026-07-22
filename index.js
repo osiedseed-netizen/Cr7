@@ -12,14 +12,13 @@ http.createServer((req, res) => {
 });
 
 function startBot() {
-  console.log('[Bot] Connecting to osieds.aternos.me:44278...');
+  console.log('[Bot] Connecting to thestreamer.aternos.host:44278...');
 
   const bot = mineflayer.createBot({
-    host: 'osieds.aternos.me',
+    host: 'thestreamer.aternos.host',
     port: 44278,
     username: 'CR7',
-    version: '1.20.1',
-    auth: 'offline',
+    auth: 'offline', // لدخول الحسابات المكركة
     checkTimeoutInterval: 60000
   });
 
