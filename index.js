@@ -3,23 +3,24 @@ const mineflayer = require('mineflayer');
 
 const PORT = process.env.PORT || 10000;
 
+// سيرفر الويب لإبقاء Render شغال 24/7
 http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('CR7 Bot is running!');
+  res.end('CR7 Bot Status: ACTIVE');
 }).listen(PORT, '0.0.0.0', () => {
   console.log(`[Web Server] Running on port ${PORT}`);
 });
 
 function startBot() {
-  console.log('[Bot] Connecting using Dyn address...');
+  console.log('[Bot] Connecting to osieds.aternos.me:44278...');
 
   const bot = mineflayer.createBot({
-    host: 'cod.aternos.host',
-    port: 36669,
+    host: 'osieds.aternos.me',
+    port: 44278,
     username: 'CR7',
     version: '1.20.1',
     auth: 'offline',
-    checkTimeoutInterval: 90000
+    checkTimeoutInterval: 60000
   });
 
   bot.on('login', () => {
@@ -27,15 +28,19 @@ function startBot() {
   });
 
   bot.on('spawn', () => {
+    console.log('====================================');
     console.log('>>> SUCCESS: CR7 IS IN THE SERVER! <<<');
+    console.log('====================================');
+
+    // قفز دوري كل 20 ثانية لمنع طرد الـ AFK
     setInterval(() => {
       bot.setControlState('jump', true);
       setTimeout(() => bot.setControlState('jump', false), 500);
     }, 20000);
   });
 
-  bot.on('kicked', (reason) => console.log('[Bot] Kicked:', reason));
-  bot.on('error', (err) => console.log('[Bot] Error:', err));
+  bot.on('kicked', (reason) => console.log('[Bot] Kicked:', JSON.stringify(reason)));
+  bot.on('error', (err) => console.log('[Bot] Error:', err.message || err));
   bot.on('end', (reason) => {
     console.log('[Bot] Connection ended:', reason);
     console.log('[Bot] Reconnecting in 5 seconds...');
