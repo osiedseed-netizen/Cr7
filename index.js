@@ -14,10 +14,11 @@ server.listen(PORT, '0.0.0.0', () => {
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'scarletibis.aternos.host', // جرب استخدام عنوان Dyn هاد بدلاً من osieds-lfk5
+    host: 'scarletibis.aternos.host',
     port: 36669,
     username: 'CR7',
-    version: '1.20.1'
+    version: '1.20.1',
+    checkTimeoutInterval: 60 * 1000 // إعطاء مهلة أطول للـ Fabric للاتصال
   });
 
   bot.on('spawn', () => {
@@ -28,9 +29,8 @@ function createBot() {
     }, 30000);
   });
 
-  // طباعة سبب الطرد أو الفصل للتشخيص
   bot.on('kicked', (reason) => {
-    console.log('Kicked for reason:', reason);
+    console.log('Kicked reason:', reason);
   });
 
   bot.on('end', (reason) => {
@@ -40,7 +40,7 @@ function createBot() {
   });
 
   bot.on('error', (err) => {
-    console.log('Bot Error Details:', err);
+    console.log('Bot Error:', err);
   });
 }
 
