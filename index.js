@@ -1,29 +1,30 @@
 const http = require('http');
 const mineflayer = require('mineflayer');
 
-// إنشاء سيرفر HTTP بسيط لإبقاء الخدمة نشطة على Render
+// 1. سيرفر الـ HTTP مع ربط 0.0.0.0 ليتمكن Render من اكتشافه
+const PORT = process.env.PORT || 10000;
+
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('CR7 Minecraft Bot is Running 24/7!\n');
+  res.end('CR7 Minecraft Bot is Active!');
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-console.log('Web server listening on port ' + PORT);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log('Web server is running on port ' + PORT);
 });
 
-// إعدادات بوت ماينكرافت
+// 2. إعدادات بوت ماينكرافت
 function createBot() {
   const bot = mineflayer.createBot({
     host: 'osieds.aternos.me',
-    port: 36669,
+    port: 36669, // تأكد إن هاد هو البورت الحالي من أترنوس
     username: 'CR7',
     version: '1.20.1'
   });
 
   bot.on('spawn', () => {
     console.log('CR7 joined the server successfully!');
-    // القفز بشكل دوري لمنع الـ AFK kick
+    // قفز دوري لمنع الـ AFK kick
     setInterval(() => {
       bot.setControlState('jump', true);
       setTimeout(() => bot.setControlState('jump', false), 500);
@@ -31,12 +32,12 @@ function createBot() {
   });
 
   bot.on('end', () => {
-    console.log('Bot disconnected, reconnecting in 5 seconds...');
+    console.log('Disconnected. Reconnecting in 5 seconds...');
     setTimeout(createBot, 5000);
   });
 
   bot.on('error', (err) => {
-    console.log('Error encountered:', err);
+    console.log('Bot Error:', err);
   });
 }
 
